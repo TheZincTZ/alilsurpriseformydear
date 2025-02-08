@@ -16,8 +16,8 @@
             <div class="envelope"></div>
             <div class="front"></div>
             <div class="card">
-                <div class="text">Happy</br> Valentine's</br> Day </div>
-                <div class="heart">
+                <div class="text">Happy</br> Valentine's</br> Day!</div>
+                <div class="heart" </div>
                 </div>
                 <div class="hearts">
                     <div class="one"></div>
@@ -30,8 +30,19 @@
         </div>
         <div class="shadow"></div>
     </div>
-    <!-- javascript file -->
-    <script src="/js/letter.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.container').mouseenter(function () {
+                $('.card').stop().animate({
+                    top: '-90px'
+                }, 'slow');
+            }).mouseleave(function () {
+                $('.card').stop().animate({
+                    top: 0
+                }, 'slow');
+            });
+        });
+    </script>
 </body>
 
 </html>
