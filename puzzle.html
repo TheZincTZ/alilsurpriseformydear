@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Puzzle</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        canvas {
+            border: 2px solid black;
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Drag & Drop Image Puzzle</h1>
+    <canvas id="puzzleCanvas"></canvas>
+    <br>
+    <button onclick="shufflePuzzle()">Shuffle</button>
+    <script>
+        const canvas = document.getElementById("puzzleCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const img = new Image();
+        img.src = "your-image.jpg"; // Replace with your image
+
+        const rows = 3, cols = 3; // Puzzle grid size
+        let pieces = [];
+        let pieceWidth, pieceHeight;
+        let selectedPiece = null;
+        let hoverPiece = null;
+
+        // Load Image and Initialize Puzzle
+        img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            pieceWidth = img.width / cols;
+            pieceHeight = img.height / rows;
+            createPuzzle();
+            shufflePuzzle();
+        };
+
+        // Create Puzzle Pieces
+        function createPuzzle() {
+            pieces = [];
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    pieces.push({
+                        x: col * pieceWidth,
+                        y: row * pieceHeight,
+                        correctX: col * pieceWidth,
+                        correctY: row * pieceHeight
+                    });
+                }
+            }
+        }
+
+        // Shuffle Puzzle Pieces
+        function shufflePuzzle() {
+            pieces.sort(() => Math.random() - 0.5);
+            drawPuzzle();
+        }
+
+        // Draw Puzzle Pieces
+        function drawPuzzle() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let piece of pieces) {
+                ctx.drawImage(img,
+                    piece.correctX, piece.correctY, pieceWidth, pieceHeight,
+                    piece.x, piece.y, pieceWidth, pieceHeight);
+            }
+        }
+
+        // Get Piece at Mouse Position
+        function getPieceAt(x, y) {
+            return pieces.find(piece =>
+                x > piece.x && x < piece.x + pieceWidth &&
+                y > piece.y && y < piece.y + pieceHeight);
+        }
+
+        // Drag & Drop Logic
+        canvas.addEventListener("mousedown", (e) => {
+            const piece = getPieceAt(e.offsetX, e.offsetY);
+            if (piece) selectedPiece = piece;
+        });
+
+        canvas.addEventListener("mousemove", (e) => {
+            if (selectedPiece) {
+                selectedPiece.x = e.offsetX - pieceWidth / 2;
+                selectedPiece.y = e.offsetY - pieceHeight / 2;
+                drawPuzzle();
+            }
+        });
+
+        canvas.addEventListener("mouseup", (e) => {
+            if (selectedPiece) {
+                const targetPiece = getPieceAt(e.offsetX, e.offsetY);
+                if (targetPiece && targetPiece !== selectedPiece) {
+                    // Swap Pieces
+                    [selectedPiece.x, targetPiece.x] = [targetPiece.x, selectedPiece.x];
+                    [selectedPiece.y, targetPiece.y] = [targetPiece.y, selectedPiece.y];
+                }
+                selectedPiece = null;
+                drawPuzzle();
+                checkWin();
+            }
+        });
+
+        // Check if Puzzle is Solved
+        function checkWin() {
+            if (pieces.every(p => p.x === p.correctX && p.y === p.correctY)) {
+                setTimeout(() => alert("Congratulations! You solved the puzzle!"), 200);
+            }
+        }
+
+    </script>
+</body>
+
+</html>
