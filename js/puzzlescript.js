@@ -1,9 +1,9 @@
 var images = [
-    { src: '/pictures/pic1.jpg', title: 'Image 1' },
-    { src: '/pictures/pic2.jpg', title: 'Image 2' },
-    { src: '/pictures/pic9.jpg', title: 'Image 3' },
-    { src: '/pictures/pic11.jpg', title: 'Image 4' },
-    { src: '/pictures/pic12.jpg', title: 'Image 5' }
+    { src: '/puzzlepic/pic1.jpg', title: 'Image 1' },
+    { src: '/puzzlepic/pic2.jpg', title: 'Image 2' },
+    { src: '/puzzlepic/pic9.jpg', title: 'Image 3' },
+    { src: '/puzzlepic/pic11.jpg', title: 'Image 4' },
+    { src: '/puzzlepic/pic12.jpg', title: 'Image 5' }
 ];
 
 $(function () {
