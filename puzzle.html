@@ -55,7 +55,7 @@
 
 
 
-        $('.me').css({ "background-image": 'url(' + images[0] + ')' });
+        $('.me').css({ "background-image":  images[0]  });
 
         $(".start").click(function () {
             $(".start").addClass('prevent_click');
@@ -174,12 +174,12 @@
         function changeBG(img) {
             if (img != 3) {
                 $('.me').css({
-                    "background-image": "url(" + images[img] + ")"
+                    "background-image":  images[img] 
                 });
                 return
             }
             else
-                $('.me').css({ "background-image": "url(" + upIMG + ")" });
+                $('.me').css({ "background-image":  upIMG  });
         }
 
         $('.pre_img li').hover(function () {
